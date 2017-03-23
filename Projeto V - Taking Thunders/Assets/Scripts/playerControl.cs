@@ -6,15 +6,18 @@ public class playerControl : MonoBehaviour
 {
     public Rigidbody rb;
     public float playerSpeed;
+    public float playerRotation;
+    private bool setController;
 
 	// Use this for initialization
 	void Start ()
     {
         rb = GetComponent<Rigidbody>();
+        setController = false;
 	}
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update()
     {
         float xAxis = Input.GetAxis("Horizontal");
         float zAxis = Input.GetAxis("Vertical");
@@ -46,5 +49,16 @@ public class playerControl : MonoBehaviour
         {
             Debug.Log("Teta");
         }
-	}
+
+        //float rotateX = Input.GetAxis("Right Analog Horizontal");
+        Vector3 mousePos = UnityEngine.Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (!setController)
+        {
+            transform.rotation = Quaternion.LookRotation(Vector3.forward, mousePos - transform.position);
+        }
+        //else
+        //{
+        //    transform.Rotate(Vector3.forward * Time.deltaTime * rotateX * playerRotation, Space.World);
+        //}
+    }
 }
